@@ -1,0 +1,49 @@
+<script type="text/javascript">
+    RED.nodes.registerType('OPCUAXLabServer', {
+        category: 'input',
+        color: '#d8bfd8',
+        defaults: {
+            name: { value: "" },
+            port: { value: 4840 },
+            endpoint: { value: "UA/XLabServer" },
+            productUri: { value: "http://xlab.io/opcua-server" },
+            allowAnonymous: { value: true }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "server.png",
+        label: function() {
+            return this.name || "XLab OPC UA Server";
+        },
+        paletteLabel: "XLab OPC UA Server",
+        labelStyle: "node_label_italic"
+    });
+</script>
+
+<template for="body">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-port"><i class="fa fa-plug"></i> Port</label>
+        <input type="number" id="node-input-port" placeholder="4840">
+    </div>
+    <div class="form-row">
+        <label for="node-input-endpoint"><i class="fa fa-code-fork"></i> Endpoint</label>
+        <input type="text" id="node-input-endpoint" placeholder="UA/XLabServer">
+    </div>
+    <div class="form-row">
+        <label for="node-input-productUri"><i class="fa fa-link"></i> Product URI</label>
+        <input type="text" id="node-input-productUri" placeholder="http://xlab.io/opcua-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-allowAnonymous"><i class="fa fa-user-secret"></i> Allow Anonymous</label>
+        <input type="checkbox" id="node-input-allowAnonymous">
+    </div>
+</template>
+
+<template for="help">
+    <p>This is the XLab version of the Node-RED OPC UA Server node.</p>
+    <p>It allows you to host a custom OPC UA endpoint for clients to connect and read/write data.</p>
+</template>
