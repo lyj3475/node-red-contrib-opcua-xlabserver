@@ -1,0 +1,132 @@
+{
+  "name": "@xlabnpm/node-red-contrib-opcua-xlabserver",
+  "version": "0.2.5",
+  "description": "Fork of the original 'node-red-contrib-opcua-server' package that is no longer maintained. This has been refactored to support the latest version of node-opcua and fixes incomplete/non-working features.",
+  "author": "Bianco Royal <developers@bianco-royal.de>, Richard Meyer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lyj3475/node-red-contrib-opcua-xlabserver.git"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/lyj3475/node-red-contrib-opcua-xlabserver#readme",
+  "bugs": {
+    "url": "https://github.com/lyj3475/node-red-contrib-opcua-xlabserver/issues"
+  },
+  "main": "src/server-node.js",
+  "files": [
+    "examples",
+    "src",
+    "create_certificates.js",
+    "supporter.js"
+  ],
+  "dependencies": {
+    "better-assert": "~1.0.2",
+    "debug": "~4.4.1",
+    "node-opcua": "~2.154.0",
+    "source-map-support": "~0.5.21"
+  },
+  "scripts": {
+    "build": "npm run build:ts && npm run clean:formatter && gulp publish",
+    "build:ts": "tsc -p tsconfig.build.json",
+    "build:dev": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch",
+    "postinstall": "node ./create_certificates.js demo --dev -s -r ./certificates && node ./supporter.js",
+    "test": "npm run clean:formatter && jest --detectOpenHandles --forceExit --logHeapUsage",
+    "test:clearCache": "jest --clearCache",
+    "test:coverage": "jest --coverage",
+    "coverage": "gulp clean && rm -rf ./jcoverage && jest --coverage --detectOpenHandles --forceExit --logHeapUsage --debug",
+    "coverage:ci": "jest --coverage --detectOpenHandles --forceExit --logHeapUsage --ci --silent --json --outputFile=scripts/out.json",
+    "coverage:upload": "cat ./jcoverage/lcov.info | codacy-coverage --token $CODACY_PROJECT_TOKEN_OPCUA_SERVER",
+    "check:formatter": "prettier --check \"src/**/*.ts\" && prettier --check \"test/**/*.ts\"",
+    "release": "npm run clean:formatter && standard-version",
+    "release:alpha": "npm run clean:formatter && npm run release -- --prerelease alpha",
+    "inspect": "jsinspect ./src/**/*.ts > .jsinspect-results.json",
+    "rewrite-changelog": "gulp changelog",
+    "clean": "gulp clean",
+    "clean:install": "./clean.sh",
+    "clean:formatter": "prettier --write \"src/**/*.ts\" && prettier --write \"test/**/*.ts\"",
+    "lint:md": "remark .",
+    "prepublishOnly": "npm run build",
+    "dev-link": "npm install && npm run build && npm link",
+    "dev-unlink": "npm unlink node-red-contrib-opcua-server-refresh -g"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "node-red": {
+    "version": ">=2",
+    "nodes": {
+      "opcua-xlabserver": "src/opcua-xlabserver.js"
+    }
+  },
+  "keywords": [
+    "automation",
+    "biancoroyal",
+    "iiot",
+    "node-red",
+    "opcua-server",
+    "xlab"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.18.9",
+    "@babel/core": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
+    "@node-red/nodes": "^3.0.1",
+    "@types/cron": "^2.0.0",
+    "@types/debug": "^4.1.7",
+    "@types/jest": "^28.1.6",
+    "@types/node-red": "^1.2.1",
+    "chai": "^4.3.6",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-conventional-changelog": "^2.0.35",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-jsdoc3": "^3.0.0",
+    "gulp-replace": "^1.1.3",
+    "gulp-sequence": "^0.1.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "gulp-uglify": "^3.0.2",
+    "jest": "^28.1.3",
+    "jest-coverage-badges": "^1.1.2",
+    "jsdoc": "^3.6.10",
+    "nock": "^13.2.8",
+    "node-red": "^3.0.1",
+    "node-red-node-test-helper": "^0.3.0",
+    "pump": "^3.0.0",
+    "prettier": "^2.7.1",
+    "standard-version": "^9.5.0",
+    "ts-jest": "^28.0.6",
+    "typescript": "^4.7.4",
+    "uglify-js": "^3.16.2",
+    "when": "^3.7.8"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ],
+    "ignore": [
+      "code/",
+      "node_modules/",
+      "examples/",
+      "opcuaCompact/",
+      "docs",
+      "src/public/",
+      "test"
+    ]
+  },
+  "remarkConfig": {
+    "plugins": [
+      "remark-preset-lint-recommended",
+      [
+        "remark-lint-list-item-indent",
+        false
+      ]
+    ]
+  },
+  "browserslist": "> 0.25%, not dead",
+  "publishConfig": {
+    "access": "public"
+  }
+}
